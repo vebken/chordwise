@@ -1,0 +1,2 @@
+# chordwise
+Ear training software
