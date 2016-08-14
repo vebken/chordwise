@@ -75,10 +75,10 @@ class Example(wx.Frame):
         mpnl = MyPanel(self)
 
         PlayButton(mpnl, label='Play', pos=(15, 15))
-        self.NoteListBox = NoteListBox(mpnl, 26, (200,0), (100, 130), NOTES, wx.LB_SINGLE)
-        self.OctaveListBox = OctaveListBox(mpnl, 27, (200,140), (100, 130), OCTAVES, wx.LB_SINGLE)
-        self.ChordScaleListBox = ChordFormListBox(mpnl, 28, (400,140), (100, 130), CHORD_SCALES, wx.LB_SINGLE)
-        self.ChordFormListBox = ChordFormListBox(mpnl, 28, (400,0), (100, 130), CHORD_FORMS, wx.LB_SINGLE)
+        self.NoteListBox = NoteListBox(mpnl, 26, (200,0), (100, 330), NOTES, wx.LB_SINGLE)
+        self.OctaveListBox = OctaveListBox(mpnl, 27, (300,0), (100, 330), OCTAVES, wx.LB_SINGLE)
+        self.ChordScaleListBox = ChordFormListBox(mpnl, 28, (400,0), (100, 130), CHORD_SCALES, wx.LB_SINGLE)
+        self.ChordFormListBox = ChordFormListBox(mpnl, 28, (500,0), (100, 130), CHORD_FORMS, wx.LB_SINGLE)
         self.Bind(wx.EVT_BUTTON, self.OnButtonClicked)
 
         self.SetTitle('Chordwise')
