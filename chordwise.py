@@ -24,7 +24,7 @@ with ignore_stderr():
   #pygame.mixer.pre_init(22050, -16, 2, 2048)
   pygame.mixer.pre_init(44100, -16, 2, 100)
   pygame.mixer.init()
-
+  pygame.mixer.set_num_channels(128)
 
 # Constants
 
