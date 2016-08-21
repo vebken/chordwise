@@ -1,5 +1,5 @@
 # chordwise
-Ear training software
+Interactive music theory and ear training software
 
 Dependencies:  
 Python 2.7  
