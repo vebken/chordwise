@@ -30,7 +30,7 @@ with ignore_stderr():
 
 GRAND_PIANO = 'GRAND_PIANO'
 NOTES = ['A','A_SHARP','B','C','C_SHARP', 'D','D_SHARP','E','F','F_SHARP','G','G_SHARP']
-CHORD_SCALES = ['Major', 'Minor']
+CHORD_SCALES = ['Major', 'Minor','Note']
 CHORD_FORMS = ['Triad', 'Seventh']
 #TODO create dictionary to map these to the constants so that the conversion doesn't have to happen in the UI file
 
@@ -74,9 +74,10 @@ piano_notes = []
 for note in NOTES:
   note_list = []
   for octave in OCTAVES:
-    sound = pygame.mixer.Sound('grand_piano' + '/' + note + '/notes/' + note + '_' + octave + WAV)
-    #print("appending sound path = %s" % 'grand_piano' + '/' + note + '/notes/' + note + '_' + octave + WAV)
-    note_list.append(sound)
+    path = os.path.join('grand_piano', note, 'notes', note + "_" + octave + WAV)
+    if (os.path.exists(path)):
+      sound = pygame.mixer.Sound(path)
+      note_list.append(sound)
   piano_notes.append(note_list)
 
 
@@ -142,13 +143,19 @@ def play(path, duration):
   sound.play(maxtime=mili)
 
 def play_note(note, instrument, duration, solo=True):
+  path = os.path.join(instrument,NOTES[note[0]], "notes", NOTES[note[0]], "_", str(note[1]), WAV)
+  print path
   play(instrument + '/' + NOTES[note[0]] + '/notes/' + NOTES[note[0]] + '_' + str(note[1]) + WAV, duration)
 #  if solo:
 #    time.sleep(duration)
 
 def play_from_mem(note, instrument, duration, solo=True):
   mili = int(duration * 1000)
-  piano_notes[note[0]][note[1]-1].play(maxtime=mili)
+  # note-1 for octave since octaves are 1 based, but array is 0 based
+  if (len(piano_notes[note[0]]) >= note[1]):
+      piano_notes[note[0]][note[1]-1].play(maxtime=mili)
+  else:
+    print ('octave %s for note %s is out of range' % (str(note[1]), NOTES[note[0]]))
 #  if solo:
 #    time.sleep(duration)
 
@@ -161,23 +168,6 @@ def play_chord(root_note, scale_type, chord_type, instrument, duration):
     play_from_mem(note, instrument, duration, solo=False)
   #time.sleep(duration)
 
-
-'''
-play_chord((A,3),MINOR_SCALE,SEVENTH,GRAND_PIANO,1)
-play_chord((A,3),MINOR_SCALE,SEVENTH,GRAND_PIANO,.5)
-play_chord((A,3),MINOR_SCALE,SEVENTH,GRAND_PIANO,1)
-play_chord((D,3),MAJOR_SCALE,TRIAD,GRAND_PIANO,2)
-'''
-
-#sc = construct_scale((B,4),MINOR_SCALE, 15)
-#while True:
-#  for n in sc:
-  #print n
-#    play_note(n, GRAND_PIANO, .3)
-    #play_from_mem(n, GRAND_PIANO, .5)
-#play_chord((A,4),MINOR_SCALE,SEVENTH,GRAND_PIANO,4)
-
-  
 
 #TODO start up page. add text drop downs for chords, scales, notes,
 
