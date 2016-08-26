@@ -30,7 +30,7 @@ with ignore_stderr():
 
 GRAND_PIANO = 'GRAND_PIANO'
 NOTES = ['C','C_SHARP', 'D','D_SHARP','E','F','F_SHARP','G','G_SHARP','A','A_SHARP','B']
-CHORD_SCALES = ['Major', 'Minor','Note']
+CHORD_SCALES = ['Note','Major','Minor']
 CHORD_FORMS = ['Triad', 'Seventh']
 #TODO create dictionary to map these to the constants so that the conversion doesn't have to happen in the UI file
 
@@ -91,7 +91,7 @@ for octave in OCTAVES:
     for note in NOTES:
         path = os.path.join('grand_piano', octave + '_' + note + WAV)
         if os.path.exists(path):
-            print path
+            #print path
             note_list.append(note)
             sound = pygame.mixer.Sound(path)
             sound_list.append(sound)
@@ -146,7 +146,7 @@ def find_chord(notes):
 
 # Return true if note is accidental
 def isAccidental(name):
-    if sharp in name:
+    if SHARP in name:
         return True
 
     # Return true if note is natural
@@ -156,17 +156,18 @@ def isNatural(name):
 
 
 def play(path, duration):
-    print ('play path is %s' % path)
+    #print ('play path is %s' % path)
     sound = pygame.mixer.Sound(path)
     mili = int(duration * 1000)
     sound.play(maxtime=mili)
 
+'''
 def play_note(note, instrument, duration, solo=True):
     path = os.path.join(instrument,NOTES[note[0]], "notes", NOTES[note[0]], "_", str(note[1]), WAV)
     print path
     play(instrument + '/' + NOTES[note[0]] + '/notes/' + NOTES[note[0]] + '_' + str(note[1]) + WAV, duration)
-#  if solo:
-#    time.sleep(duration)
+'''
+
 
 def play_from_mem(note, instrument, duration):
     mili = int(duration * 1000)
@@ -175,6 +176,7 @@ def play_from_mem(note, instrument, duration):
         #find correct index, octaves 0 and 8 are misleading
         note_idx = piano_notes[note[1]].index(NOTES[note[0]])
         piano_sounds[note[1]][note_idx].play(maxtime=mili)
+        return note
     else:
         print ('octave %s for note %s is out of range' % (str(note[1]), NOTES[note[0]]))
 
@@ -183,13 +185,9 @@ def play_chord(root_note, scale_type, chord_type, instrument, duration):
     #calculate chord
     chord = construct_chord(root_note, scale_type, chord_type)
     for note in chord:
-        print note
-        #play_note(note, instrument, duration)
+        #print note
         play_from_mem(note, instrument, duration)
-        #time.sleep(duration)
-
-
-#TODO start up page. add text drop downs for chords, scales, notes,
+    return chord
 
 
 
